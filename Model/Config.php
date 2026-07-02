@@ -2,8 +2,9 @@
 
 namespace HyTales\OneLinkLogin\Model;
 
+use InvalidArgumentException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\Serialize\SerializerInterface;
 
 class Config
 {
@@ -12,11 +13,11 @@ class Config
 
     /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param Json $json
+     * @param SerializerInterface $serializer
      */
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig,
-        private readonly Json $json
+        private readonly SerializerInterface $serializer
     ) {
     }
 
@@ -29,18 +30,23 @@ class Config
     }
 
     /**
-     * @return array<int, array{label: string, email: string, role_id: int}>
+     * @return array<int, array{label: string, email: string, role_id: int|string}>
      */
     public function getAccounts(): array
     {
         $value = $this->scopeConfig->getValue(self::XML_PATH_ACCOUNTS);
+
         if (!$value) {
             return [];
         }
 
-        $accounts = $this->json->unserialize($value);
+        try {
+            $accounts = $this->serializer->unserialize($value);
+        } catch (InvalidArgumentException) {
+            return [];
+        }
 
-        return array_values(array_filter((array)$accounts, static fn ($account) => !empty($account['email'])));
+        return array_values(array_filter((array) $accounts, static fn ($account) => !empty($account['email'])));
     }
 
     /**

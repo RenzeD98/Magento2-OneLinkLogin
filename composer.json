@@ -1,0 +1,23 @@
+{
+    "name": "hytales/module-one-link-login",
+    "description": "OneLink login module",
+    "type": "magento2-module",
+    "license": "MIT",
+    "require": {
+        "php": "~8.3.0||~8.4.0",
+        "magento/framework": "*",
+        "magento/module-backend": "*",
+        "magento/module-user": "*",
+        "magento/module-authorization": "*",
+        "magento/module-config": "*",
+        "magento/module-two-factor-auth": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HyTales\\OneLinkLogin\\": ""
+        }
+    }
+}
