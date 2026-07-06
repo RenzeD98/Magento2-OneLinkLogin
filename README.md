@@ -7,7 +7,7 @@ Magento 2 module that lets a developer log in to the admin panel via a single UR
 Available on [Packagist](https://packagist.org/packages/hytales/module-one-link-login). Install via Composer:
 
 ```
-composer require hytales/module-one-link-login
+composer require hytales/module-one-link-login --dev
 bin/magento module:enable HyTales_OneLinkLogin
 bin/magento setup:upgrade
 ```
